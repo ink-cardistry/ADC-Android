@@ -142,7 +142,10 @@ ANDROID_JAR=$PWD/sdk/android-35/android.jar bash build.sh
 3. 运行 jvmtest/run_test.sh 核心回归测试
 4. 上传产物 ArcaeaDarkTool-apk（out/ArcaeaDarkTool.apk）
 
-打 v* 标签也会触发构建，可在 Actions 页面下载 artifact。
+打 v* 标签（或手动 Run workflow 并填写 release_tag）还会**自动发布 GitHub Release**，
+并把 ArcaeaDarkTool.apk 作为附件挂到 Release 上，便于直接下载安装。
+
+最新发布：<https://github.com/ink-cardistry/ADC-Android/releases/latest>
 
 ## 常见问题
 
