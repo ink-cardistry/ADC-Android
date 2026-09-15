@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageInstaller;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -13,8 +14,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.Settings;
 import android.text.method.ScrollingMovementMethod;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -34,7 +36,8 @@ import java.io.OutputStream;
  * Single-screen UI. The source APK is imported manually through the system document picker
  * (Storage Access Framework) — no adb, no device connection of any kind.
  */
-public class MainActivity extends Activity implements Job.Listener {
+public class MainActivity extends Activity implements Job.Listener, InstallReceiver.Listener {
+    private static final String TAG = "ArcaeaDark";
     private static final int REQ_PICK = 1001;
     private static final int REQ_EXPORT = 1002;
     private static final int REQ_NOTIF = 1003;
@@ -68,6 +71,7 @@ public class MainActivity extends Activity implements Job.Listener {
     protected void onResume() {
         super.onResume();
         Job.setListener(this);
+        InstallReceiver.setListener(this);
         refreshButtons();
     }
 
@@ -75,6 +79,7 @@ public class MainActivity extends Activity implements Job.Listener {
     protected void onPause() {
         super.onPause();
         Job.setListener(null);
+        InstallReceiver.setListener(null);
     }
 
     // ------------------------------------------------------------------
@@ -236,22 +241,69 @@ public class MainActivity extends Activity implements Job.Listener {
         }
     }
 
+    // ------------------------------------------------------------------
+    //  Install
+    // ------------------------------------------------------------------
+
     private void installApk() {
         if (signedPath == null) return;
         final File apk = new File(signedPath);
+        if (!apk.exists()) { status.setText("找不到成品 APK，请重新改包"); return; }
+
+        // 1) Parse the APK with the framework parser first: a null result means the produced
+        //    file is not a valid APK, which is far more useful than a bare install failure.
+        PackageInfo info = getPackageManager().getPackageArchiveInfo(signedPath, 0);
+        if (info == null) {
+            status.setText("成品 APK 无法解析（可能已损坏）");
+            toast("成品 APK 无法解析，请重新改包");
+            return;
+        }
+        long vc = Build.VERSION.SDK_INT >= 28 ? info.getLongVersionCode() : info.versionCode;
+        String parsed = "成品可解析：包名 " + info.packageName + "  versionCode " + vc;
+        Log.i(TAG, parsed);
+        status.setText(parsed);
+
+        // 2) Make sure this app is allowed to install packages.
+        if (Build.VERSION.SDK_INT >= 26 && !getPackageManager().canRequestPackageInstalls()) {
+            toast("请先允许本应用安装未知应用");
+            try {
+                startActivity(new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,
+                        Uri.parse("package:" + getPackageName())));
+            } catch (Exception ignore) { }
+            return;
+        }
+
+        // 3) Install on a background thread (copying ~2 GB must not block the UI thread).
         status.setText("正在准备安装包…");
         new Thread(new Runnable() {
             public void run() {
                 try {
-                    installWithSession(apk);
-                } catch (final Exception e) {
+                    final String v = Signer.verifySummary(apk);
                     ui.post(new Runnable() { public void run() {
-                        status.setText("安装失败：" + e.getMessage());
-                        toast("安装失败：" + e.getMessage());
+                        Log.i(TAG, "verify: " + v);
+                        status.setText("签名校验：" + v + "，正在提交安装…");
+                    }});
+                } catch (final Throwable e) {
+                    ui.post(new Runnable() { public void run() {
+                        status.setText("签名校验异常（继续尝试安装）：" + e.getMessage());
+                    }});
+                }
+                try {
+                    installWithSession(apk);
+                } catch (final Throwable e) {
+                    Log.e(TAG, "install failed", e);
+                    ui.post(new Runnable() { public void run() {
+                        status.setText("安装失败：" + describe(e));
+                        toast("安装失败：" + describe(e));
                     }});
                 }
             }
         }, "install").start();
+    }
+
+    private static String describe(Throwable e) {
+        String m = e.getMessage();
+        return e.getClass().getSimpleName() + (m == null ? "" : ": " + m);
     }
 
     private void installWithSession(File apk) throws Exception {
@@ -282,7 +334,7 @@ public class MainActivity extends Activity implements Job.Listener {
         PendingIntent pending = PendingIntent.getBroadcast(this, id, intent, flags);
         session.commit(pending.getIntentSender());
         ui.post(new Runnable() { public void run() {
-            status.setText("已提交安装，请在系统弹窗中确认");
+            status.setText("已提交安装，请在弹出的系统界面中确认");
         }});
     }
 
@@ -337,7 +389,7 @@ public class MainActivity extends Activity implements Job.Listener {
     }
 
     // ------------------------------------------------------------------
-    //  Job.Listener
+    //  Listeners
     // ------------------------------------------------------------------
 
     @Override
@@ -372,6 +424,14 @@ public class MainActivity extends Activity implements Job.Listener {
             status.setTextColor(ok ? Color.parseColor("#8FD3A0") : Color.parseColor("#FF8A80"));
             if (ok) progress.setProgress(1000);
             refreshButtons();
+        }});
+    }
+
+    @Override
+    public void onInstallResult(final boolean ok, final String text) {
+        ui.post(new Runnable() { public void run() {
+            status.setText(text);
+            status.setTextColor(ok ? Color.parseColor("#8FD3A0") : Color.parseColor("#FF8A80"));
         }});
     }
 

@@ -1,6 +1,7 @@
 package com.arcaeadark.tool;
 
 import com.android.apksig.ApkSigner;
+import com.android.apksig.ApkVerifier;
 
 import java.io.File;
 import java.io.InputStream;
@@ -85,5 +86,16 @@ public final class Signer {
         b.setOtherSignersSignaturesPreserved(false);
         if (minSdk > 0) b.setMinSdkVersion(minSdk);
         b.build().sign();
+    }
+
+    /** Verifies the produced APK with the same engine apksigner uses (diagnostics before install). */
+    public static String verifySummary(File apk) throws Exception {
+        ApkVerifier.Result r = new ApkVerifier.Builder(apk).build().verify();
+        StringBuilder sb = new StringBuilder();
+        sb.append(r.isVerified() ? "通过" : "未通过");
+        sb.append(" (v1=").append(r.isVerifiedUsingV1Scheme())
+          .append(", v2=").append(r.isVerifiedUsingV2Scheme())
+          .append(", v3=").append(r.isVerifiedUsingV3Scheme()).append(")");
+        return sb.toString();
     }
 }

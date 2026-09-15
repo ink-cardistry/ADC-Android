@@ -143,3 +143,19 @@ ANDROID_JAR=$PWD/sdk/android-35/android.jar bash build.sh
 4. 上传产物 ArcaeaDarkTool-apk（out/ArcaeaDarkTool.apk）
 
 打 v* 标签也会触发构建，可在 Actions 页面下载 artifact。
+
+## 常见问题
+
+### 点击「安装」后返回 null / 没有反应（v1.1 已修复）
+
+v1.0 的安装回调漏掉了 `PackageInstaller.STATUS_PENDING_USER_ACTION`：普通应用提交安装会话后，
+系统会先返回该状态（**状态消息为 null**），并把需要用户确认的界面放在 `Intent.EXTRA_INTENT` 里，
+必须由应用把它启动起来，否则安装会静默失败——表现就是「点了安装返回 null」。
+
+v1.1 的修复与增强：
+
+- 收到 `STATUS_PENDING_USER_ACTION` 时自动启动系统安装确认界面；
+- 安装前先用系统解析器 `getPackageArchiveInfo` 校验成品 APK（解析失败会明确提示，而不是裸报错）；
+- 再用内嵌 apksig 校验签名并在状态栏显示结果；
+- 未授予「安装未知应用」时直接跳转到对应设置页；
+- 安装失败时给出可读原因（冲突 / 无效 / 空间不足 / 被阻止等），不再出现 null。
