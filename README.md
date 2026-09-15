@@ -147,6 +147,17 @@ ANDROID_JAR=$PWD/sdk/android-35/android.jar bash build.sh
 
 最新发布：<https://github.com/ink-cardistry/ADC-Android/releases/latest>
 
+自动编译触发条件：
+
+| 事件 | 行为 |
+|---|---|
+| push 到任意分支 | 构建 + 回归测试 + 上传 artifact |
+| push / PR 涉及 main | 额外刷新滚动预发布 Latest build (main) |
+| push v* 标签 | 发布带版本号的正式 Release 并挂 APK |
+| 手动 Run workflow | 可填 release_tag 发正式版，留空则只构建 |
+
+滚动预发布：<https://github.com/ink-cardistry/ADC-Android/releases/tag/latest>
+
 ## 常见问题
 
 ### 点击「安装」后返回 null / 没有反应（v1.1 已修复）

@@ -2,18 +2,22 @@ name: build
 
 on:
   push:
-    branches: [ main ]
+    branches: [ '**' ]
     tags: [ 'v*' ]
   pull_request:
   workflow_dispatch:
     inputs:
       release_tag:
-        description: '要发布 Release 的 tag（如 v1.1）。留空则只构建、不发 Release。'
+        description: '要发布正式 Release 的 tag（如 v1.2）。留空则只构建、不发 Release。'
         required: false
         default: ''
 
 permissions:
   contents: read
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -55,7 +59,38 @@ jobs:
           path: out/ArcaeaDarkTool.apk
           if-no-files-found: error
 
-  release:
+  # ---- rolling pre-release, refreshed on every push to main ------------------
+  release-latest:
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download built APK
+        uses: actions/download-artifact@v4
+        with:
+          name: ArcaeaDarkTool-apk
+          path: dist
+
+      - name: Refresh rolling "latest" pre-release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: Latest build (main)
+          prerelease: true
+          make_latest: 'false'
+          files: dist/ArcaeaDarkTool.apk
+          fail_on_unmatched_files: true
+          body: |
+            自动构建：main 分支最新提交 ${{ github.sha }}
+
+            这是每次 push 到 main 都会刷新的滚动预览版，供直接下载测试。
+            稳定的正式版请看带版本号的 Release（例如 v1.1）。
+            与上游同一把公共签名密钥，可与原版共存、覆盖升级不丢存档。
+
+  # ---- versioned release on v* tag (or manual dispatch with release_tag) -----
+  release-versioned:
     needs: build
     if: startsWith(github.ref, 'refs/tags/v') || (github.event_name == 'workflow_dispatch' && github.event.inputs.release_tag != '')
     runs-on: ubuntu-latest
@@ -73,11 +108,13 @@ jobs:
       - name: Show downloaded files
         run: ls -la dist
 
-      - name: Publish GitHub Release
+      - name: Publish versioned GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ env.RELEASE_TAG }}
           name: Arcaea 全暗改包 ${{ env.RELEASE_TAG }}
+          prerelease: false
+          make_latest: 'true'
           files: dist/ArcaeaDarkTool.apk
           fail_on_unmatched_files: true
           generate_release_notes: true
