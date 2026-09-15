@@ -1,3 +1,5 @@
+[![build](https://github.com/ink-cardistry/ADC-Android/actions/workflows/build.yml/badge.svg)](https://github.com/ink-cardistry/ADC-Android/actions/workflows/build.yml)
+
 # Arcaea 全暗改包工具 · Android 本地版
 
 把 [335589054/ADC](https://github.com/335589054/ADC)（Windows / .NET 10 控制台工具）改写成一个
@@ -117,3 +119,27 @@ ANDROID_JAR=$PWD/sdk/android-35/android.jar bash build.sh
 - `apksigner verify` 通过 v1 / v2 / v3 三种签名方案；
 - 源 APK 已带原厂签名时，旧的 `META-INF/*.SF|*.RSA` 会被剥离，只保留本工具的新签名；
 - 成品证书 SHA-256 与上游公共密钥一致。
+
+
+## 上游来源与许可
+
+本项目是 [335589054/ADC](https://github.com/335589054/ADC) 的 Android 移植版，属于**衍生作品**。
+
+- 上游：https://github.com/335589054/ADC —— *Arcaea 全暗测改包工具*（.NET 10 控制台程序）
+- 上游许可证：**GNU GPL v3**（注意：不是 MIT）
+- 本仓库许可证：**GNU GPL v3**，见 [LICENSE](LICENSE)
+- 上游源码快照完整收录于 [third_party/upstream-ADC/](third_party/upstream-ADC/)（未修改），用于满足 GPL 的源码提供与署名要求
+- 内置的替换规则 assets/dark_rules.json 与公共签名密钥 assets/arcaea-dark.keystore 均来自上游
+
+移植部分（src/、AndroidManifest.xml、build.sh、jvmtest/）由本仓库重新实现，同样以 GPL-3.0 分发。
+
+## 自动构建（GitHub Actions）
+
+[.github/workflows/build.yml](.github/workflows/build.yml) 在每次 push / PR 时自动：
+
+1. 安装 JDK 17 + Android SDK（platform 35 / build-tools 35.0.0）
+2. 执行 build.sh（aapt2 → javac → d8 → 打包 → 签名）
+3. 运行 jvmtest/run_test.sh 核心回归测试
+4. 上传产物 ArcaeaDarkTool-apk（out/ArcaeaDarkTool.apk）
+
+打 v* 标签也会触发构建，可在 Actions 页面下载 artifact。

@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>ArcaeaDarkApkCreator</AssemblyName>
+    <RootNamespace>ArcaeaDarkApkCreator</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+
+    <!-- 程序图标 / 版本信息（显示在 exe 属性里） -->
+    <ApplicationIcon>assets\app.ico</ApplicationIcon>
+    <AssemblyTitle>Arcaea 全暗测改包工具</AssemblyTitle>
+    <Product>Arcaea Dark Apk Creator</Product>
+    <Description>把 Arcaea 的光芒侧 / 消色侧 / 殸侧资源替换为纷争(对立)侧，改包名并重新签名</Description>
+    <Copyright>仅供个人研究学习，请勿传播或商用</Copyright>
+    <Version>1.2.1</Version>
+    <FileVersion>1.2.1.0</FileVersion>
+    <InformationalVersion>1.2.1</InformationalVersion>
+    <!-- 不要把 git commit hash 拼进版本号（保持显示为干净的 1.1.0） -->
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+    <NeutralLanguage>zh-Hans</NeutralLanguage>
+
+    <!-- 单文件发布：不裁剪（用到反射式 JSON 序列化），不产出 pdb -->
+    <PublishTrimmed>false</PublishTrimmed>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- 默认替换规则编译进 exe；首次运行自动释放到 rules/ 方便用户编辑 -->
+    <EmbeddedResource Include="rules\dark_rules.json"
+                      LogicalName="ArcaeaDarkApkCreator.rules.dark_rules.json" />
+
+    <!-- 公共签名密钥编译进 exe：保证所有用户签名一致，升级可直接覆盖安装而不丢数据 -->
+    <EmbeddedResource Include="keystore\arcaea-dark.keystore"
+                      LogicalName="ArcaeaDarkApkCreator.keystore.arcaea-dark.keystore" />
+  </ItemGroup>
+
+</Project>

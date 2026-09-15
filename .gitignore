@@ -12,3 +12,5 @@ jvmtest/*.idsig
 jvmtest/*.keystore
 *.class
 .DS_Store
+build/tclasses/
+build/ttest/
