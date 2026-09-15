@@ -1,0 +1,92 @@
+{
+  "version": 1,
+  "description": "Arcaea 全暗测改包替换规则：把 光芒侧/消色侧/殸(Lephon)侧 的资源内容替换为原包中 纷争(对立)侧 的内容。语义 = 保留 from 的文件名，写入 to 的文件内容。可自行增删，无需改代码。",
+  "targetSide": "conflict",
+  "pairs": [
+    { "from": "assets/img/track.png", "to": "assets/img/track_dark.png", "note": "地面轨道：光芒侧 -> 纷争侧" },
+    { "from": "assets/img/track_colorless.png", "to": "assets/img/track_tempestissimo.png", "note": "地面轨道：消色侧 -> 风暴对立(Tempestissimo)侧" },
+    { "from": "assets/img/track_darklephon.png", "to": "assets/img/track_dark.png", "note": "地面轨道：暗殸侧 -> 纷争侧" },
+    { "from": "assets/img/track_rei.png", "to": "assets/img/track_dark.png", "note": "特殊命名轨道：rei 曲包专用的亮白轨道 -> 纷争侧（原先漏掉，导致该包整片发亮）" },
+    { "from": "assets/img/track_extralane_light.png", "to": "assets/img/track_extralane_dark.png", "note": "附加轨(6K)光芒侧 -> 纷争侧" },
+    { "from": "assets/img/track_critical_extra_light.png", "to": "assets/img/track_critical_extra_dark.png", "note": "附加轨判定线光芒侧 -> 纷争侧" },
+
+    { "from": "assets/img/note.png", "to": "assets/img/note_dark.png", "note": "地面单键光芒侧 -> 纷争侧" },
+    { "from": "assets/img/note_hold.png", "to": "assets/img/note_hold_dark.png", "note": "地面长条光芒侧 -> 纷争侧" },
+    { "from": "assets/img/note_hold_hi.png", "to": "assets/img/note_hold_dark_hi.png", "note": "长条高亮光芒侧 -> 纷争侧" },
+
+    { "from": "assets/particle/note_light.png", "to": "assets/particle/note_conflict.png", "note": "音弧粒子光芒侧 -> 纷争侧" },
+    { "from": "assets/particle/note_colorless.png", "to": "assets/particle/note_conflict.png", "note": "音弧粒子消色侧 -> 纷争侧" },
+    { "from": "assets/particle/note_mirai_light.png", "to": "assets/particle/note_mirai_conflict.png", "note": "音弧粒子(未来)光芒侧 -> 纷争侧" },
+    { "from": "assets/particle/particle_arc_mirai_light.plist", "to": "assets/particle/particle_arc_mirai_conflict.plist", "note": "音弧粒子配置光芒侧 -> 纷争侧" },
+
+    { "from": "assets/models/tap_l.png", "to": "assets/models/tap_d.png", "note": "天键贴图光芒侧 -> 纷争侧" },
+    { "from": "assets/models/tap_l.obj", "to": "assets/models/tap_d.obj", "note": "天键模型光芒侧 -> 纷争侧" },
+    { "from": "assets/models/tap_l.mtl", "to": "assets/models/tap_d.mtl", "note": "天键材质光芒侧 -> 纷争侧" },
+    { "from": "assets/models/sfx_l.obj", "to": "assets/models/sfx_d.obj", "note": "打击特效模型光芒侧 -> 纷争侧" },
+    { "from": "assets/models/sfx_l.mtl", "to": "assets/models/sfx_d.mtl", "note": "打击特效材质光芒侧 -> 纷争侧" },
+    { "from": "assets/models/sfx_l_core.jpg", "to": "assets/models/sfx_d_core.jpg", "note": "打击特效核心光芒侧 -> 纷争侧" },
+    { "from": "assets/models/sfx_l_note.jpg", "to": "assets/models/sfx_d_note.jpg", "note": "打击特效音符光芒侧 -> 纷争侧" },
+
+    { "from": "assets/img/bg_glow_light.png", "to": "assets/img/bg_glow_dark.png", "note": "背景辉光光芒侧 -> 纷争侧" },
+    { "from": "assets/img/bg_glow_colorless.png", "to": "assets/img/bg_glow_dark.png", "note": "背景辉光消色侧 -> 纷争侧" },
+    { "from": "assets/img/bg_glow_lephon.png", "to": "assets/img/bg_glow_dark.png", "note": "背景辉光殸侧 -> 纷争侧" },
+    { "from": "assets/img/bg_glow_byd_light.png", "to": "assets/img/bg_glow_byd_dark.png", "note": "BYD背景辉光光芒侧 -> 纷争侧" },
+    { "from": "assets/img/bg_byd_light.jpg", "to": "assets/img/bg_byd_dark.jpg", "note": "BYD背景光芒侧 -> 纷争侧" },
+    { "from": "assets/img/bg_light.jpg", "to": "assets/img/bg_byd_dark.jpg", "note": "界面背景(光)：原包无 bg_dark.jpg，改用同族 1280x960 的暗侧图 bg_byd_dark.jpg" },
+    { "from": "assets/img/bg_colorless.jpg", "to": "assets/img/bg_byd_dark.jpg", "note": "界面背景(消色)：原包无消色暗侧版，改用同族暗侧图 bg_byd_dark.jpg" },
+
+    { "from": "assets/img/song_jacket_back_light.png", "to": "assets/img/song_jacket_back_dark.png", "note": "曲绘背板光芒侧 -> 纷争侧" },
+    { "from": "assets/img/song_jacket_back_colorless.png", "to": "assets/img/song_jacket_back_dark.png", "note": "曲绘背板消色侧 -> 纷争侧" },
+    { "from": "assets/img/song_jacket_back_lephon.png", "to": "assets/img/song_jacket_back_dark_lephon.png", "note": "曲绘背板殸侧 -> 暗殸侧" },
+
+    { "from": "assets/img/1080/bg_select_light.jpg", "to": "assets/img/1080/bg_select_dark.jpg", "note": "选曲背景光芒侧 -> 纷争侧" },
+    { "from": "assets/img/1080/bg_lephon.jpg", "to": "assets/img/1080/bg_dark_lephon.jpg", "note": "选曲背景殸侧 -> 暗殸侧" },
+
+    { "from": "assets/img/songselect/1080/song_cell_corner_light.png", "to": "assets/img/songselect/1080/song_cell_corner_dark.png", "note": "曲目卡角标光芒侧 -> 纷争侧" },
+    { "from": "assets/img/songselect/1080/song_cell_corner_colorless.png", "to": "assets/img/songselect/1080/song_cell_corner_dark.png", "note": "曲目卡角标消色侧 -> 纷争侧" },
+    { "from": "assets/img/songselect/1080/song_cell_corner_lephon.png", "to": "assets/img/songselect/1080/song_cell_corner_dark_lephon.png", "note": "曲目卡角标殸侧 -> 暗殸侧" },
+
+    { "from": "assets/img/course/1080/bg-shapes_light.png", "to": "assets/img/course/1080/bg-shapes_dark.png", "note": "段位背景装饰光芒侧 -> 纷争侧" },
+
+    { "from": "assets/img/course/indicator-l-lephon.png", "to": "assets/img/course/indicator-l-dark-leph.png", "note": "段位分侧指示(长)殸侧 -> 暗殸侧" },
+    { "from": "assets/img/course/indicator-s-lephon.png", "to": "assets/img/course/indicator-s-dark-leph.png", "note": "段位分侧指示(短)殸侧 -> 暗殸侧" },
+    { "from": "assets/img/results/indicator-l-light.png", "to": "assets/img/results/indicator-l-conf.png", "note": "成绩分侧指示(长)光芒侧 -> 纷争侧" },
+    { "from": "assets/img/results/indicator-s-light.png", "to": "assets/img/results/indicator-s-conf.png", "note": "成绩分侧指示(短)光芒侧 -> 纷争侧" },
+    { "from": "assets/layouts/results/coursemode/indicator-l-light.png", "to": "assets/layouts/results/coursemode/indicator-l-conf.png", "note": "段位成绩指示(长)光芒侧 -> 纷争侧" },
+    { "from": "assets/layouts/results/coursemode/indicator-s-light.png", "to": "assets/layouts/results/coursemode/indicator-s-conf.png", "note": "段位成绩指示(短)光芒侧 -> 纷争侧" },
+    { "from": "assets/layouts/results/coursemode/indicator-l-colorless.png", "to": "assets/layouts/results/coursemode/indicator-l-conf.png", "note": "段位成绩指示(长)消色侧 -> 纷争侧" },
+    { "from": "assets/layouts/results/coursemode/indicator-s-colorless.png", "to": "assets/layouts/results/coursemode/indicator-s-conf.png", "note": "段位成绩指示(短)消色侧 -> 纷争侧" },
+
+    { "from": "assets/img/multiplayer/indicator-light.png", "to": "assets/img/multiplayer/indicator-conflict.png", "note": "多人分侧指示光芒侧 -> 纷争侧" },
+    { "from": "assets/img/multiplayer/lephon-multiplayer-sideindicator.png", "to": "assets/img/multiplayer/indicator-conflict.png", "note": "多人分侧指示殸侧 -> 纷争侧" },
+    { "from": "assets/img/multiplayer/colourless-multiplayer-sideindicator.png", "to": "assets/img/multiplayer/indicator-conflict.png", "note": "多人分侧指示消色侧 -> 纷争侧" },
+
+    { "from": "assets/img/bg/single_line_light.png", "to": "assets/img/bg/single_line_conflict.png", "note": "单曲分隔线光芒侧 -> 纷争侧" },
+    { "from": "assets/img/bg/single2_line_light.png", "to": "assets/img/bg/single2_line_conflict.png", "note": "单曲分隔线2光芒侧 -> 纷争侧" },
+    { "from": "assets/img/bg/undying_macula_diamond.png", "to": "assets/img/bg/undying_macula_diamond_dark.png", "note": "回忆率>70辉光光芒侧 -> 纷争侧" },
+    { "from": "assets/img/bg/1080/nijuusei-light-b.jpg", "to": "assets/img/bg/1080/nijuusei-conflict-b.jpg", "note": "二十岁背景光芒侧 -> 纷争侧" },
+    { "from": "assets/img/bg/1080/nijuusei-light-b_clear.png", "to": "assets/img/bg/1080/nijuusei-conflict-b_clear.png", "note": "二十岁背景(回忆率>70版)光芒侧 -> 纷争侧" },
+
+    { "from": "assets/img/bg/1080/lanota-light.jpg", "to": "assets/img/bg/1080/lanota-conflict.jpg", "note": "特殊命名背景(Lanota)光芒侧 -> 纷争侧" },
+    { "from": "assets/img/bg/1080/rei.jpg", "to": "assets/img/bg/1080/yugamu.jpg", "note": "特殊命名背景(rei)光芒侧 -> 纷争侧；被 13+ 首曲目共用" },
+    { "from": "assets/img/bg/1080/tonesphere-solarsphere.jpg", "to": "assets/img/bg/1080/tonesphere-darksphere.jpg", "note": "特殊命名背景(太阳圈)光芒侧 -> 纷争侧(暗圈)" },
+    { "from": "assets/img/bg/1080/zettai_light.jpg", "to": "assets/img/bg/1080/zettai.jpg", "note": "特殊命名背景(绝对)光芒侧 -> 纷争侧" },
+    { "from": "assets/img/bg/1080/zettai_light_clear.png", "to": "assets/img/bg/1080/zettai_clear.png", "note": "特殊命名背景(绝对,回忆率>70版)光芒侧 -> 纷争侧" },
+    { "from": "assets/img/bg/1080/etherstrike.jpg", "to": "assets/img/bg/1080/yugamu.jpg", "note": "Ether Strike 独立命名背景(原包没有对应纷争侧版本) -> 改用同曲包 rei 的纷争侧背景 yugamu" },
+
+    { "from": "assets/img/finale/overview/song_intro/lvl-light-pst.png", "to": "assets/img/finale/overview/song_intro/lvl-dark-pst.png", "note": "终章曲目卡片(PST)光芒侧 -> 纷争侧" },
+    { "from": "assets/img/finale/overview/song_intro/lvl-light-pres.png", "to": "assets/img/finale/overview/song_intro/lvl-dark-pres.png", "note": "终章曲目卡片(PRS)光芒侧 -> 纷争侧" },
+    { "from": "assets/img/finale/overview/song_intro/lvl-light-ftr.png", "to": "assets/img/finale/overview/song_intro/lvl-dark-ftr.png", "note": "终章曲目卡片(FTR)光芒侧 -> 纷争侧" },
+    { "from": "assets/img/finale/overview/song_intro/lvl-light-byd.png", "to": "assets/img/finale/overview/song_intro/lvl-dark-byd.png", "note": "终章曲目卡片(BYD)光芒侧 -> 纷争侧" },
+
+    { "from": "assets/img/course/1080/multiplier-light.png", "to": "assets/img/course/1080/multiplier-dark.png", "note": "段位倍率图标光芒侧 -> 纷争侧" },
+    { "from": "assets/img/course/1080/song-arrows-light.png", "to": "assets/img/course/1080/song-arrows-dark.png", "note": "段位曲目箭头光芒侧 -> 纷争侧" }
+  ],
+  "patterns": [
+    { "match": "^assets/img/bg/1080/(.+)_light_clear\\.png$", "replace": "assets/img/bg/1080/$1_conflict_clear.png", "note": "曲绘背景(回忆率>70版)光芒侧 -> 纷争侧" },
+    { "match": "^assets/img/bg/1080/(.+)_light_(.+)\\.(jpg|jpeg|png)$", "replace": "assets/img/bg/1080/$1_conflict_$2.$3", "note": "曲绘背景(带后缀变体)光芒侧 -> 纷争侧" },
+    { "match": "^assets/img/bg/1080/(.+)_light\\.(jpg|jpeg|png)$", "replace": "assets/img/bg/1080/$1_conflict.$2", "note": "曲绘背景光芒侧 -> 纷争侧" },
+    { "match": "^assets/img/bg/(.+)_light_(.+)\\.(jpg|jpeg|png)$", "replace": "assets/img/bg/$1_conflict_$2.$3", "note": "曲绘背景(根目录带后缀变体)光芒侧 -> 纷争侧" },
+    { "match": "^assets/img/bg/(.+)_light\\.(jpg|jpeg|png)$", "replace": "assets/img/bg/$1_conflict.$2", "note": "曲绘背景(根目录)光芒侧 -> 纷争侧" }
+  ]
+}

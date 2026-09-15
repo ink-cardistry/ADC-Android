@@ -1,0 +1,14 @@
+out/
+build/classes/
+build/dex/
+build/test/
+build/tools/
+build/*.jar
+jvmtest/work*/
+jvmtest/tbase/
+jvmtest/verify/
+jvmtest/*.apk
+jvmtest/*.idsig
+jvmtest/*.keystore
+*.class
+.DS_Store

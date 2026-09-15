@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "targetSide": "conflict",
+  "pairs": [
+    { "from": "assets/img/note_light.png", "to": "assets/img/note_dark.png", "note": "test pair" }
+  ],
+  "patterns": [
+    { "match": "^assets/img/bg/1080/(.+)_light\\.png$", "replace": "assets/img/bg/1080/$1_conflict.png", "note": "test pattern" }
+  ]
+}
